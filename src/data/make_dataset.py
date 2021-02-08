@@ -4,16 +4,34 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
+from src.data.data_prep_pipeline import PrepareEmailDB
+from src.data.load_data import read_csv
+from src.config import DATASETS, MELUSINE_COLS, DATA_DIR
+
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+@click.argument('dataset_yml_config', type=click.Path(exists=True))
+def main(input_filepath, dataset_yml_config):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    logger.info('Prepare data set from raw data')
+    
+    config = DATASETS[Path(dataset_yml_config).stem]
+    df = read_file(input_filepath)
+    renamed_df = rename_columns(df, config)
+    clean_df = PrepareEmailDB.fit_transform(renamed_df)
+    new_filename = f"clean_{input_filepath.name}"
+    clean_df.to_csv(DATA_DIR / "processed" / new_filename)
+    return clean_df
+
+
+def rename_columns(df, config):
+    new_cols_names = {c: MELUSINE_COLS[i] for i, c in enumerate(config["melusine_columns"])}
+    return df.rename(new_cols_names, axis=1)
+
 
 
 if __name__ == '__main__':
