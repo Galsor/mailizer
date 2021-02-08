@@ -1,0 +1,10 @@
+{ name: "email_db",
+  id: "1FVNa5wDNrraeG1GO34uD_L-sB44hZlYBpollctrhN2s",
+  name: "Email_db",
+  url: "https://docs.google.com/spreadsheets/d/1FVNa5wDNrraeG1GO34uD_L-sB44hZlYBpollctrhN2s/edit#gid=0",
+  columns: ["ThreadID","MessageID","Date","From","Subject","body"],
+  melusine_columns: ["body", "Subject", "Date", "From", "To"],
+  body: "body",
+  from: "From",
+  header: "Subject",
+}
