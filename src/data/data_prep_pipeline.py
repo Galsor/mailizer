@@ -8,7 +8,7 @@ def clean_html_body(raw):
     """ Remove HTML tags and special caracteres from email bodies.
     This method can be used in Melusine pipelines"""
     body = raw[MELUSINE_COLS[0]]
-    return soup(body).text
+    return soup(body, features="html.parser").text
 
 def parse_from(row):
     """
@@ -16,7 +16,7 @@ def parse_from(row):
     This function can be used in Melusine pipelines
     """
     from_col = row[MELUSINE_COLS[3]]
-    from_col = from_col.replace(r'\[.*?$', '', regex=True)    # Clean suffix
+    from_col = from_col.replace(r'\[.*?$', '')    # Clean suffix
     email = re.findall(r'[A-Za-z0-9-\._]+[@][\w-]+[.]\w+', from_col)[0]
     name = from_col.split(email)[0]
     if "groups.io" in name:
@@ -26,7 +26,7 @@ def parse_from(row):
     return name, email
 
 
-PreprareEmailDB = TransformerScheduler(
+PrepareEmailDB = TransformerScheduler(
     functions_scheduler=[
         (parse_from, None ,["name", "from"]),
         (clean_html_body, None , ["body"]),

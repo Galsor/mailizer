@@ -16,10 +16,10 @@ def read_file(filepath):
     """
     File loader util
     """
-    if self.filename.endswith('.csv'):
-        df = pd.read_csv(join(stg.DATA_DIR, self.filename))
-    elif self.filename.endswith('.parquet'):
-        df = pd.read_parquet(join(stg.DATA_DIR, self.filename))
+    if filepath.suffix == '.csv':
+        df = pd.read_csv(filepath)
+    elif filepath.suffix == '.parquet':
+        df = pd.read_parquet(filepath)
     else:
         raise NotImplementedError('Your extension is not implemented yet. Prefer parquet or csv.')
 
