@@ -3,14 +3,20 @@ import yaml
 import logging
 
 # Project Paths
-
-
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_DIR / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 DATASET_CONFIG_PATH = PROJECT_DIR / "references" / "datasets"
 GOOGLE_CREDENTIALS_PATH = "/home/antiez/.config/gspread/credentials.json"
+
+
+PIPELINE_STEPS = ["make_dataset.py", "build_features.py"]
+#Data file prefix following each DAG
+FILE_PREFIX = { 
+                PIPELINE_STEPS[0]: "clean_", 
+                PIPELINE_STEPS[1]: "featurized_",
+                }
 
 
 #Register your dataset in mailizer/references
