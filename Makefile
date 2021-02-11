@@ -26,8 +26,13 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Make Dataset
-data: requirements
+clean_data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw/email_db.csv
+
+## Prepare Dataset
+prepare_data: clean_data
+	$(PYTHON_INTERPRETER) src/features/build_features.py data/processed/clean_email_db.csv
+
 
 ## Delete all compiled Python files
 clean:
