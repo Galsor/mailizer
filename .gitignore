@@ -1,6 +1,7 @@
 # Specific ignore from the project
-.mailizer
-
+*.csv
+token.pickle
+*.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
