@@ -3,7 +3,26 @@ Mailizer
 
 An email processing pipeline based on Melusine aiming to perform topic extraction and email classification.
 
-Project Organization
+
+## Initialisation 
+### Instanciate your virtual environment. 
+``` make create_environment``` 
+### (optional) Create your credentials.json 
+
+**These steps are mandatory if your raw data are stored in Google Drive Spreadsheet**
+1. Head to Google Developers Console and create a new project (or select the one you already have).
+2. In the box labeled “Search for APIs and Services”, search for “Google Drive API” and enable it.
+3. In the box labeled “Search for APIs and Services”, search for “Google Sheets API” and enable it.
+4. Go to “APIs & Services > OAuth Consent Screen.” Click the button for “Configure Consent Screen” and follow the directions to give your app a name; you don’t need to fill out anything else on that screen. Click Save.
+5. Go to “APIs & Services > Credentials”
+6. Click “+ Create credentials” at the top, then select “OAuth client ID”.
+7. Select “Desktop app”, name the credentials and click “Create”. Click “Ok” in the “OAuth client created” popup.
+8. Download the credentials by clicking the Download JSON button in “OAuth 2.0 Client IDs” section.
+9. Move the downloaded file to `~/.config/gspread/credentials.json`. Windows users should put this file to `%APPDATA%\gspread\credentials.json`.
+
+
+
+## Project Organization
 ------------
 
     ├── LICENSE
