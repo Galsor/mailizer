@@ -6,7 +6,7 @@ from dotenv import find_dotenv, load_dotenv
 
 from src.data.data_prep_pipeline import PrepareEmailDB
 from src.data.load_data import read_file
-from src.config import DATASETS, MELUSINE_COLS, RAW_DATA_DIR, PROCESSED_DATA_DIR, DATASET_CONFIG_PATH
+from src.config import DATASETS, MELUSINE_COLS, RAW_DATA_DIR, PROCESSED_DATA_DIR, DATASET_CONFIG_PATH, FILE_PREFIX
 
 
 @click.command()
@@ -21,7 +21,7 @@ def main(input_filepath,):
     input_filepath = Path(input_filepath)
     file_stem = input_filepath.stem
     config_filepath = (DATASET_CONFIG_PATH / (file_stem+".yml"))
-    output_filename = f"clean_{input_filepath.name}"
+    output_filename = FILE_PREFIX[Path(__file__).name] + input_filepath.name
 
     if config_filepath.is_file():
         config = DATASETS[file_stem]

@@ -10,6 +10,17 @@ def clean_html_body(raw):
     body = raw[MELUSINE_COLS[0]]
     return soup(body, features="html.parser").text
 
+def remove_body_footer(raw):
+    """
+    Remove a specific body footer starting with the delimiter : -=-=-=-=-=-=-=-=-=-=-=-
+    """
+    body = raw[MELUSINE_COLS[0]]
+    return body.replace(r'-=-=-=-=.*?$', '')
+
+def remove_back_r(raw):
+    body = raw[MELUSINE_COLS[0]]
+    return body.replace('\r', '\n')
+
 def parse_from(row):
     """
     Preprocessing step used to split Gmail 'from' data into user name and email
@@ -25,11 +36,12 @@ def parse_from(row):
         name = name[:-2]
     return name, email
 
-
 PrepareEmailDB = TransformerScheduler(
     functions_scheduler=[
         (parse_from, None ,["name", "from"]),
         (clean_html_body, None , ["body"]),
+        (remove_back_r, None, ["body"]),
+        (remove_body_footer, None, ["body"]),
         (lambda x:"hec-entrepreneurs@groups.io", None, ["to"]),
     ]
 )

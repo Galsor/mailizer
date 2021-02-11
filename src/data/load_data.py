@@ -1,34 +1,21 @@
-import gspread
 import numpy as np
 import pandas as pd
-from src.config import DATASETS
+from pathlib import Path
 
-def load_data_from_drive(filename):
-    """ Download data from Google Spreadsheet and load it into a DataFrame object"""
-    gc = gspread.oauth()
-    worksheet = gc.open(filename).sheet1
-    # get_all_values gives a list of rows.
-    rows = worksheet.get_all_values()
-    df = pd.DataFrame(np.array(rows)[1:], columns=np.array(rows[0]))
-    return df
+
 
 def read_file(filepath):
     """
     File loader util
     """
+    if isinstance(filepath, str):
+        filepath = Path(filepath)
+
     if filepath.suffix == '.csv':
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, header=0)
     elif filepath.suffix == '.parquet':
         df = pd.read_parquet(filepath)
     else:
         raise NotImplementedError('Your extension is not implemented yet. Prefer parquet or csv.')
 
     return df
-
-
-if __name__ == "__main__":
-
-    #Replace with your Google Spreadsheet file name
-    filename = DATASETS['email_db']
-    df = load_data_from_drive(filename)
-    print(df.head())
