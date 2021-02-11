@@ -62,15 +62,12 @@ tokenizer = Tokenizer(input_column="clean_body")
 
 # Full preprocessing pipeline
 PreprocessingPipeline = Pipeline([
-    ('PrepareEmailDB', PrepareEmailDB),
     ('ManageTransferReply', ManageTransferReply),
     ('Segmenting', Segmenting),
     ('LastBodyHeaderCleaning', LastBodyHeaderCleaning),
     ('PhraserTransformer', PhraserTransformer),
     ('tokenizer', tokenizer)
 ])
-
-def rename_columns()
 
 def run_preprocessing(df):
     """Apply preprocessing pipeline to DataFrame"""
@@ -79,17 +76,3 @@ def run_preprocessing(df):
     return df
 
 
-# Apply MetaData processing pipeline to DataFrame
-df_meta = MetadataPipeline.fit_transform(df_emails)
-
-# Keywords extraction
-df_emails = keywords_generator.fit_transform(df_emails)
-
-# Train an embedding with the 'clean_body' data
-pretrained_embedding.train(df_emails)
-
-# Create a 'clean_text' column from the 'clean_header' and 'clean_body' columns
-df_emails['clean_text'] = df_emails['clean_header']+'. '+df_emails['clean_body']
-
-# Create a training set DataFrame with MetaData + the 'clean_text' columns
-X = pd.concat([df_emails['clean_text'],df_meta],axis=1)
